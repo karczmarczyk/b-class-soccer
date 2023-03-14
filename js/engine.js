@@ -7,7 +7,7 @@ class Engine
         ArrowDown: false,
     }
 
-    player;    
+    player;
 
     constructor () {
         this.addEventListeners();
@@ -21,14 +21,14 @@ class Engine
     addEventListeners() {
         let that = this;
         window.addEventListener('keydown', function(event) {
-            that.consoleLog("Down:"+event.key);
+            //that.consoleLog("Down:"+event.key);
             if (event.key!=='F5') {
                 event.preventDefault();
             }
             that.setKey(event.key, true);
         });
         window.addEventListener('keyup', function(event) {
-            that.consoleLog("Up:"+event.key);
+            //that.consoleLog("Up:"+event.key);
             if (event.key!=='F5') {
                 event.preventDefault();
             }
@@ -72,17 +72,33 @@ class Engine
         if (this.keys.ArrowDown) {
             p.y = p.y+this.player.speed;
         }
-        this.consoleLog(p);
+        //this.consoleLog(p);
         this.player.setPosition(p);
         this.player.updatePosition();
+    }
+
+    colisionWithBall(player){
+        let ball = this.player.stadiumObj.ball;
+        if (this.isColision(ball, player)) {
+            this.consoleLog('COLISION!!!!!!!');
+        }
+    }
+
+    isColision(obj1, obj2) {
+        let p1 = obj1.getPosition();
+        let p2 = obj2.getPosition();
+        let dMax = (obj1.r+obj2.r) / 2;
+        let d = Math.sqrt(Math.pow(p2.x-p1.x, 2) + Math.pow(p2.y-p1.y, 2));
+        return dMax>=d;
     }
 
     run() {
         let that = this;
         setInterval(function(){
 
-            that.consoleLog(that.keys);
-            that.movePlayer()
+            //that.consoleLog(that.keys);
+            that.movePlayer();
+            that.colisionWithBall(that.player);
             
 
         },50);

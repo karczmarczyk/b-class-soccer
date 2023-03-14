@@ -1,5 +1,7 @@
 class Player 
 {
+    r = 50;
+
     name;
     
     player;
