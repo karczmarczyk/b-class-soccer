@@ -4,10 +4,12 @@
   <link href="/css/style.css" rel="stylesheet">
   <link href="/css/stadium.css" rel="stylesheet">
   <link href="/css/player.css" rel="stylesheet">
+  <link href="/css/ball.css" rel="stylesheet">
   <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
   <script src="/js/stadium.js"></script>
   <script src="/js/player.js"></script>
   <script src="/js/engine.js"></script>
+  <script src="/js/ball.js"></script>
 </head>
 
 <body>
@@ -23,9 +25,12 @@
 
             let player1 = new Player("Mati");
 
+            let ball = new Ball();
+
             let stadium = new Stadium("klepisko")
             .setSize(1000,500)
             .addPlayer(player1)
+            .addBall(ball)
             .render();
 
             

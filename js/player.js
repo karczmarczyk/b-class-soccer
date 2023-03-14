@@ -1,7 +1,10 @@
 class Player 
 {
     name;
+    
     player;
+    playerBody;
+
     stadiumObj;
     focused = true;
 
@@ -24,6 +27,8 @@ class Player
 
     create() {
         this.player = $('<div class="player"></div>');
+        this.playerBody = $('<div class="player-body"></div>');
+        this.player.append(this.playerBody);
     }
 
     updatePosition() {

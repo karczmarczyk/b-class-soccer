@@ -1,0 +1,16 @@
+div.ball {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+}
+
+div.ball-body {
+    background-color: white;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    position: absolute;
+    margin-left: -10px;
+    margin-top: -10px;
+    border: 1px solid black;
+}
