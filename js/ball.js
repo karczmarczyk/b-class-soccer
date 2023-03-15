@@ -12,6 +12,14 @@ class Ball
 
     stadiumObj;
 
+    vector = {
+        a: 0,
+        b: 0,
+    };
+    power = 0;
+
+    powerLoss = 0.2;
+
     constructor() {
         this.create();
         return this;
@@ -44,6 +52,25 @@ class Ball
         this.ball = $('<div class="ball"></div>');
         this.ballBody = $('<div class="ball-body"></div>');
         this.ball.append(this.ballBody);
+    }
+
+    setPower(power) {
+        this.power = power;
+    }
+
+    setVector(vector) {
+        this.vector = vector;
+    }
+
+    move() {
+        if (this.power<=0) return;
+
+        this.pos.x = this.pos.x+(this.power*this.vector.a);
+        this.pos.y = this.pos.y+(this.power*this.vector.b);
+
+        this.power-=this.powerLoss;
+
+        this.updatePosition();
     }
 
     render() {

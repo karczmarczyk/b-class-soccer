@@ -77,10 +77,26 @@ class Engine
         this.player.updatePosition();
     }
 
+    calcVector(a, b) {
+        return {
+            a: b.x-a.x,
+            b: b.y-a.y,
+        }
+    }
+
+    setBallDirection(player, power) {
+        let p1 = player.getPosition();
+        let ballPos = this.player.stadiumObj.ball.getPosition();
+        let vector = this.calcVector(p1, ballPos);
+        this.player.stadiumObj.ball.setVector(vector);
+        this.player.stadiumObj.ball.setPower(power);
+    }
+
     colisionWithBall(player){
         let ball = this.player.stadiumObj.ball;
         if (this.isColision(ball, player)) {
             this.consoleLog('COLISION!!!!!!!');
+            this.setBallDirection(player, 1);
         }
     }
 
@@ -92,6 +108,10 @@ class Engine
         return dMax>=d;
     }
 
+    moveBall() {
+        this.player.stadiumObj.ball.move();
+    }
+
     run() {
         let that = this;
         setInterval(function(){
@@ -100,6 +120,7 @@ class Engine
             that.movePlayer();
             that.colisionWithBall(that.player);
             
+            that.moveBall();
 
         },50);
     }
