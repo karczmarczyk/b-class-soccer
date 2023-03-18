@@ -96,7 +96,7 @@ class Engine
         let ball = this.player.stadiumObj.ball;
         if (this.isColision(ball, player)) {
             this.consoleLog('COLISION!!!!!!!');
-            this.setBallDirection(player, 1);
+            this.setBallDirection(player, 0.4);
         }
     }
 

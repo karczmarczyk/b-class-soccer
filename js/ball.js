@@ -18,7 +18,7 @@ class Ball
     };
     power = 0;
 
-    powerLoss = 0.2;
+    powerLoss = 0.1;
 
     constructor() {
         this.create();
