@@ -59,21 +59,20 @@ class Engine
     }
 
     movePlayer() {
-        let p = this.player.getPosition();
         if (this.keys.ArrowRight) {
-            p.x = p.x+this.player.speed;
+            this.player.setXAcceleration(this.player.acceleration);
         }
         if (this.keys.ArrowLeft) {
-            p.x = p.x-this.player.speed;
+            this.player.setXAcceleration(-this.player.acceleration);
         }
         if (this.keys.ArrowUp) {
-            p.y = p.y-this.player.speed;
+            this.player.setYAcceleration(-this.player.acceleration);
         }
         if (this.keys.ArrowDown) {
-            p.y = p.y+this.player.speed;
+            this.player.setYAcceleration(this.player.acceleration);
         }
         //this.consoleLog(p);
-        this.player.setPosition(p);
+        this.player.move();
         this.player.updatePosition();
     }
 
@@ -97,6 +96,9 @@ class Engine
         if (this.isColision(ball, player)) {
             this.consoleLog('COLISION!!!!!!!');
             this.setBallDirection(player, 0.4);
+            this.player.setCurrentMaxSpeed(0.3); //30%
+        } else {
+            this.player.setCurrentMaxSpeed(1); //100%
         }
     }
 
