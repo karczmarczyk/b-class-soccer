@@ -1,10 +1,14 @@
 class Engine
 {
     keys = {
+        // move
         ArrowRight: false,
         ArrowLeft: false,
         ArrowUp: false,
         ArrowDown: false,
+        // actions
+        shot: false,
+        pass: false,
     }
 
     player;
@@ -21,22 +25,22 @@ class Engine
     addEventListeners() {
         let that = this;
         window.addEventListener('keydown', function(event) {
-            //that.consoleLog("Down:"+event.key);
             if (event.key!=='F5') {
                 event.preventDefault();
             }
-            that.setKey(event.key, true);
+            that.setNavigationKey(event.key, true);
+            that.setActionKey(event.key, true);
         });
         window.addEventListener('keyup', function(event) {
-            //that.consoleLog("Up:"+event.key);
             if (event.key!=='F5') {
                 event.preventDefault();
             }
-            that.setKey(event.key, false);
+            that.setNavigationKey(event.key, false);
+            that.setActionKey(event.key, false);
         });
     }
 
-    setKey(key, flag) {
+    setNavigationKey(key, flag) {
         switch (key) {
             case "ArrowRight": 
                 this.keys.ArrowRight = flag;
@@ -49,6 +53,17 @@ class Engine
             break;
             case "ArrowDown": 
                 this.keys.ArrowDown = flag;
+            break;
+        }
+    }
+
+    setActionKey(key, flag) {
+        switch (key.toLowerCase()) {
+            case "d": 
+                this.keys.shot = flag;
+            break;
+            case "s": 
+                this.keys.pass = flag;
             break;
         }
     }
@@ -76,6 +91,17 @@ class Engine
         this.player.updatePosition();
     }
 
+    actionPlayer() {
+        if (this.keys.shot) {
+            this.player.setAction("shot");
+            this.keys.shot = false;
+        }
+        if (this.keys.pass) {
+            this.player.setAction("pass");
+            this.keys.pass = false;
+        }
+    }
+
     calcVector(a, b) {
         return {
             a: b.x-a.x,
@@ -83,11 +109,20 @@ class Engine
         }
     }
 
-    setBallDirection(player, power) {
+    setBallDirection(player, defaultPower) {
         let p1 = player.getPosition();
         let ballPos = this.player.stadiumObj.ball.getPosition();
         let vector = this.calcVector(p1, ballPos);
         this.player.stadiumObj.ball.setVector(vector);
+
+        let power = defaultPower;
+        if (this.player.isShoting()) {
+            power = this.player.getShotPower();
+        }
+        if (this.player.isPassing()) {
+            power = this.player.getPassPower();
+        }
+
         this.player.stadiumObj.ball.setPower(power);
     }
 
@@ -120,6 +155,7 @@ class Engine
 
             //that.consoleLog(that.keys);
             that.movePlayer();
+            that.actionPlayer();
             that.colisionWithBall(that.player);
             
             that.moveBall();

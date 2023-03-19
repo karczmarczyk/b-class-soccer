@@ -25,6 +25,18 @@ class Player
     // ponieżej tej prędkości zeruję
     moveDelta = this.moveInertia;
 
+    // akcja
+    action = null;
+    // czas ustawienia akcji
+    actionSetTime = null;
+    // czas ważności akcji
+    actionValidityTime = 1000; // ms
+
+    // max siła strzału
+    shotPower = 2;
+    // max siła podania
+    passPower = 1;
+
     pos = {
         x: 0, y: 0
     }
@@ -102,5 +114,34 @@ class Player
 
     setCurrentMaxSpeed(currentMaxSpeedPercent) {
         this.currentMaxSpeed = this.speed * currentMaxSpeedPercent;
+    }
+
+    setAction(action) {
+        this.action = action;
+        this.actionSetTime = Date.now();
+    }
+
+    isShoting() {
+        return this.isAction('shot');
+    }
+
+    isPassing() {
+        return this.isAction('pass');
+    }
+
+    isAction(action) {
+        if (action == this.action && Date.now()-this.actionSetTime>this.actionValidityTime) {
+            this.action = null;
+            this.actionSetTime = null;
+        }
+        return action == this.action;
+    }
+
+    getShotPower() {
+        return this.shotPower;
+    }
+
+    getPassPower() {
+        return this.passPower;
     }
 }
