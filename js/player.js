@@ -32,6 +32,8 @@ class Player
     // czas ważności akcji
     actionValidityTime = 1000; // ms
 
+    // siła dotknięcia
+    touch = 0.4;
     // max siła strzału
     shotPower = 2;
     // max siła podania
@@ -116,6 +118,17 @@ class Player
         this.currentMaxSpeed = this.speed * currentMaxSpeedPercent;
     }
 
+    getPercentCurrentSpeedOfMaxSpeed() {
+        let speed = this.xSpeed;
+        if (this.ySpeed > this.xSpeed) {
+            speed = this.ySpeed;
+        } 
+        if (speed < 1) {
+            return 0.3;
+        }
+        return speed / this.speed;
+    }
+
     setAction(action) {
         this.action = action;
         this.actionSetTime = Date.now();
@@ -138,10 +151,10 @@ class Player
     }
 
     getShotPower() {
-        return this.shotPower;
+        return this.shotPower * this.getPercentCurrentSpeedOfMaxSpeed();
     }
 
     getPassPower() {
-        return this.passPower;
+        return this.passPower * this.getPercentCurrentSpeedOfMaxSpeed();
     }
 }

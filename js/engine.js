@@ -130,7 +130,7 @@ class Engine
         let ball = this.player.stadiumObj.ball;
         if (this.isColision(ball, player)) {
             this.consoleLog('COLISION!!!!!!!');
-            this.setBallDirection(player, 0.4);
+            this.setBallDirection(player, player.touch);
             this.player.setCurrentMaxSpeed(0.3); //30%
         } else {
             this.player.setCurrentMaxSpeed(1); //100%
