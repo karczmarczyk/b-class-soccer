@@ -20,6 +20,8 @@ class Ball
 
     powerLoss = 0.1;
 
+    lastOwner = null;
+
     constructor() {
         this.create();
         return this;
@@ -73,11 +75,16 @@ class Ball
         this.updatePosition();
     }
 
+    setCurrentOwner(player) {
+        this.lastOwner = player;
+    }
+
     render() {
         this.stadiumObj.stadium.append(this.ball);
         
         this.pos.x = parseInt(this.ball.css("left"), 10);
         this.pos.y = parseInt(this.ball.css("top"), 10);
+        console.log("ini ball positon: "+JSON.stringify(this.pos));
         this.updatePosition();
     }
 }

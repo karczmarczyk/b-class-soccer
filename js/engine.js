@@ -132,6 +132,7 @@ class Engine
             this.consoleLog('COLISION!!!!!!!');
             this.setBallDirection(player, player.touch);
             this.player.setCurrentMaxSpeed(0.3); //30%
+            ball.setCurrentOwner(player);
         } else {
             this.player.setCurrentMaxSpeed(1); //100%
         }
@@ -147,6 +148,9 @@ class Engine
 
     moveBall() {
         this.player.stadiumObj.ball.move();
+        if (this.player.stadiumObj.isBallOnField()) {
+            console.log("BALL OUT!!!");
+        }
     }
 
     run() {
