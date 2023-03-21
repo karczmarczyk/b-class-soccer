@@ -8,6 +8,7 @@ div.stadium {
 
 div.field {
     display: flex;
+    position: relative;
     width: 100%;
     height: 100%;
     background-color: green;
@@ -16,16 +17,15 @@ div.field {
 div.field-side {
     border: 2px solid white;
     flex: auto;
+    position: relative;
 }
 
 div.sideA {
     border-right-width: 1px;
-    position: relative;
 }
 
 div.sideB {
     border-left-width: 1px;
-    position: relative;
 }
 
 div.goal {

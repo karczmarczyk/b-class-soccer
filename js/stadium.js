@@ -7,13 +7,19 @@ class Stadium
     sideA = null;
     sideB = null;
     
+    goalPosR = 2.5;
+
     goalA = null;
     goalPostA1 = null;
+    goalPostA1Obj = null;
     goalPostA2 = null;
+    goalPostA2Obj = null;
     
     goalB = null;
     goalPostB1 = null;
+    goalPostB1Obj = null;
     goalPostB2 = null;
+    goalPostB2Obj = null;
 
     length = 200;
     width = 100;
@@ -127,7 +133,20 @@ class Stadium
         console.log("field center: "+JSON.stringify(this.centerPosition));
 
         // goals positions
-        
+        this.goalPostA1Obj = new GoalPost("A1", this.calcGoalPostPos('A','1'), this.goalPosR);
+        this.goalPostA2Obj = new GoalPost("A2", this.calcGoalPostPos('A','2'), this.goalPosR);
+        this.goalPostB1Obj = new GoalPost("B1", this.calcGoalPostPos('B','1'), this.goalPosR);
+        this.goalPostB2Obj = new GoalPost("B2", this.calcGoalPostPos('B','2'), this.goalPosR);
+    }
+
+    calcGoalPostPos(n,m) {
+        let goalPostName = 'goalPost'+n+m;
+        let goalName = 'goal'+n;
+        let sideName = 'side'+n;
+        let goalY = this[goalName].position().top + this.fieldPosition.y + this[sideName].position().top;
+        let goalX = this[goalName].position().left + this.fieldPosition.x + this[sideName].position().left;
+        let p = {x: this[goalPostName].position().left+goalX+this.goalPosR, y: this[goalPostName].position().top+goalY-this.goalPosR}
+        return p;
     }
 
     isBallOnField() {
@@ -149,4 +168,34 @@ class Stadium
         this.ball.render();
     }
     
+}
+
+class GoalPost 
+{
+    name;
+    r = 2.5;
+
+    pos = {
+        x: 0, y: 0
+    }
+
+    constructor(name, p, r) {
+        this.name = name;
+        this.pos = p;
+        console.log("goalPost"+name+": "+JSON.stringify(p));
+        this.r = r;
+        return this;
+    }
+
+    setPosition(p) {
+        this.pos = {
+            x: p.x,
+            y: p.y,
+        }
+        return this;
+    }
+
+    getPosition() {
+        return this.pos;
+    }
 }

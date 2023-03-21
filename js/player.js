@@ -11,7 +11,7 @@ class Player
     focused = true;
 
     // prędkość maksymalna
-    speed = 5;
+    speed = 1;
     // aktualna prędkość maksymalna
     currentMaxSpeed = this.speed;
     // przyspieszenie
@@ -21,7 +21,7 @@ class Player
     // prędkość na osi Y
     ySpeed = 0;
     // bezwładność (wytracanie xSpeed, ySpeed)
-    moveInertia = 0.3;
+    moveInertia = 0.49;
     // ponieżej tej prędkości zeruję
     moveDelta = this.moveInertia;
 
@@ -33,11 +33,11 @@ class Player
     actionValidityTime = 1000; // ms
 
     // siła dotknięcia
-    touch = 0.4;
+    touch = 0.03;
     // max siła strzału
-    shotPower = 2;
+    shotPower = 0.2;
     // max siła podania
-    passPower = 1;
+    passPower = 0.1;
 
     pos = {
         x: 0, y: 0
@@ -72,6 +72,7 @@ class Player
             x: p.x,
             y: p.y,
         }
+        return this;
     }
 
     getPosition() {
@@ -119,9 +120,9 @@ class Player
     }
 
     getPercentCurrentSpeedOfMaxSpeed() {
-        let speed = this.xSpeed;
-        if (this.ySpeed > this.xSpeed) {
-            speed = this.ySpeed;
+        let speed = Math.abs(this.xSpeed);
+        if (Math.abs(this.ySpeed) > Math.abs(this.xSpeed)) {
+            speed = Math.abs(this.ySpeed);
         } 
         if (speed < 1) {
             return 0.3;
@@ -155,6 +156,6 @@ class Player
     }
 
     getPassPower() {
-        return this.passPower * this.getPercentCurrentSpeedOfMaxSpeed();
+        return this.passPower;// * this.getPercentCurrentSpeedOfMaxSpeed();
     }
 }

@@ -18,7 +18,7 @@ class Ball
     };
     power = 0;
 
-    powerLoss = 0.1;
+    powerLoss = 0.98;
 
     lastOwner = null;
 
@@ -70,7 +70,7 @@ class Ball
         this.pos.x = this.pos.x+(this.power*this.vector.a);
         this.pos.y = this.pos.y+(this.power*this.vector.b);
 
-        this.power-=this.powerLoss;
+        this.power = this.power*this.powerLoss;
 
         this.updatePosition();
     }
