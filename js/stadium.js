@@ -158,6 +158,64 @@ class Stadium
             || p.y > this.fieldPosition.y + this.width + this.ball.r/2;
     }
 
+    isGoal(x, pBefore, pAfter) {
+        let goalPostName1 = "goalPost"+x+"1Obj";
+        let goalPostName2 = "goalPost"+x+"2Obj";
+
+        return this.vectorIntersection(pBefore,pAfter,this[goalPostName1].getPosition(),this[goalPostName2].getPosition());
+    }
+
+    vectorIntersection(p1, p2, p3, p4) {
+        let S_1 = this.vectorProduct(p1, p3, p2);
+        let S_2 = this.vectorProduct(p1, p4, p2);
+        let S_3 = this.vectorProduct(p3, p1, p4);
+        let S_4 = this.vectorProduct(p3, p2, p4);
+        
+        if (((S_1 > 0 && S_2 < 0) || (S_1 < 0 && S_2 > 0)) && ((S_3 < 0 && S_4 > 0) || (S_3 > 0 && S_4 < 0))) {
+            return true;
+        } 
+        else if (S_1 = 0 && this.isBetween(p1, p2, p3)) {
+            return true;
+        } 
+        else if (S_2 = 0 && this.isBetween(p1, p2, p4)) {
+             return true;
+        }
+        else if (S_3 = 0 && this.isBetween(p3, p4, p1)) {
+             return true;
+        }
+        else if (S_4 = 0 && this.isBetween(p3, p4, p2)) {
+             return true;
+        }
+        else return false;
+    }
+
+    /**
+     * Iloczyn wektorów
+     * @param {*} p1 
+     * @param {*} p2 
+     * @param {*} p3 
+     * @returns 
+     */
+    vectorProduct (p1, p2, p3) {
+        //(x2 - x1)(y3 - y1) - (x3 - x1)(y2 - y1)  
+        return (p2.x - p1.x)*(p3.y - p1.y) - (p3.x - p1.x)*(p2.y - p1.y);
+    }
+
+    /**
+     * Czy leży pomiędzy
+     */
+    isBetween(p1, p2, p3) {
+        xMin = p1.x;
+        if (p2.x<xMin) {
+            xMin = p2.x;
+        }
+        xMax = p1.x;
+        if (p2.x > xMax) {
+            xMax = p2.x;
+        }
+        return xMin <= p3.x && p3.x <= xMax;
+    }
+
     render() {
         this.updateView();
         this.containerElement.append(this.stadium);

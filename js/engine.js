@@ -171,14 +171,24 @@ class Engine
     }
 
     moveBall() {
+        let pBefore = this.player.stadiumObj.ball.getPosition();
         this.player.stadiumObj.ball.move();
         if (this.player.stadiumObj.isBallOnField()) {
-            console.log("BALL OUT!!!");
+            let pAfter = this.player.stadiumObj.ball.getPosition();
+            if (this.player.stadiumObj.isGoal("A", this.player.getPosition(), pAfter)) {
+                console.log("GOAL A!!!");    
+            }
+            else if (this.player.stadiumObj.isGoal("B", this.player.getPosition(), pAfter)) {
+                console.log("GOAL B!!!");
+            } 
+            else {
+                console.log("BALL OUT!!!");
+            }
             let that = this;
-            setTimeout(function(){
-                that.engineStop = true;
-                document.location.reload();
-            }, 1000);
+            // setTimeout(function(){
+            //     that.engineStop = true;
+            //     document.location.reload();
+            // }, 1000);
         }
     }
 
