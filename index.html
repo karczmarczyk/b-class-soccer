@@ -8,8 +8,10 @@
   <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
   <script src="/js/stadium.js"></script>
   <script src="/js/player.js"></script>
+  <script src="/js/goalkeeper.js"></script>
   <script src="/js/engine.js"></script>
   <script src="/js/ball.js"></script>
+  <script src="/js/team.js"></script>
 </head>
 
 <body>
@@ -23,15 +25,33 @@
 
             mainContainer.focus();
 
-            let player1 = new Player("Mati");
-            player1.setPosition({x: 500, y: 250});
+            // team A
+            let player1 = new Player("Mati",10)
+                .setPosition({x: 500, y: 250})
+                .setFocused(true);
+
+
+            // team B
+            let gk2 = new Goalkeeper("Bramkarz",1)
+                .setPosition({x: 1050, y: 330})
+                ;
+
 
             let ball = new Ball();
 
+            let teamA = new Team('A', "TeamA")
+                .addPlayer(player1)
+                ;
+
+            let teamB = new Team('B', "TeamB")
+                .addPlayer(gk2)
+                ;
+
             let stadium = new Stadium("klepisko")
             .setSize(1000,500)
-            .setGoalSize(100)
-            .addPlayer(player1)
+            .setGoalSize(150)
+            .addTeamA(teamA)
+            .addTeamB(teamB)
             .addBall(ball)
             .render();
 

@@ -15,6 +15,9 @@ class Engine
 
     player;
 
+    teamA;
+    teamB;
+
     constructor () {
         this.addEventListeners();
         return this;
@@ -120,9 +123,11 @@ class Engine
         let power = defaultPower;
         if (this.player.isShoting()) {
             power = this.player.getShotPower();
+            this.player.resetAction('shot');
         }
         if (this.player.isPassing()) {
             power = this.player.getPassPower();
+            this.player.resetAction('pass');
         }
 
         this.player.stadiumObj.ball.setPower(power);
@@ -133,10 +138,10 @@ class Engine
         if (this.isColision(ball, player)) {
             this.consoleLog('COLISION!!!!!!!');
             this.setBallDirection(player, player.touch);
-            this.player.setCurrentMaxSpeed(0.3); //30%
+            player.setCurrentMaxSpeed(0.3); //30%
             ball.setCurrentOwner(player);
         } else {
-            this.player.setCurrentMaxSpeed(1); //100%
+            player.setCurrentMaxSpeed(1); //100%
         }
     }
 
@@ -185,11 +190,27 @@ class Engine
                 console.log("BALL OUT!!!");
             }
             let that = this;
-            // setTimeout(function(){
-            //     that.engineStop = true;
-            //     document.location.reload();
-            // }, 1000);
+            setTimeout(function(){
+                that.engineStop = true;
+                document.location.reload();
+            }, 1000);
         }
+    }
+
+    moveOtherPlayers (side) {
+        let that = this;
+        this.player.stadiumObj['team'+side].getPlayers().forEach(player => {
+            if (!player.focused) {
+                that.moveOtherPlayer(player);
+            }
+        });
+    }
+
+    moveOtherPlayer(player) {
+        player.updatePosition();
+        this.colisionWithBall(player);
+        
+        that.colisionWithBall(this.player);
     }
 
     run() {
@@ -211,6 +232,9 @@ class Engine
             that.colisionWithElement(that.player.stadiumObj.goalPostA2Obj);
             that.colisionWithElement(that.player.stadiumObj.goalPostB1Obj);
             that.colisionWithElement(that.player.stadiumObj.goalPostB2Obj);
+
+            that.moveOtherPlayers('A');
+            that.moveOtherPlayers('B');
 
         },10);
     }

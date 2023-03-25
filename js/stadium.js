@@ -35,7 +35,8 @@ class Stadium
         y: 0,
     }
 
-    players = [];
+    teamA = [];
+    teamB = [];
     ball;
 
     constructor(name) {
@@ -104,9 +105,23 @@ class Stadium
         return this;
     }
 
-    addPlayer(player) {
-        player.setStadium(this);
-        this.players.push(player);
+    addTeamA(team) {
+        let that = this;
+        team.getPlayers().forEach(player => {
+            player.setStadium(that);
+        });
+        
+        this.teamA = team;
+        return this;
+    }
+
+    addTeamB(team) {
+        let that = this;
+        team.getPlayers().forEach(player => {
+            player.setStadium(that);
+        });
+        
+        this.teamB = team;
         return this;
     }
 
@@ -220,7 +235,10 @@ class Stadium
         this.updateView();
         this.containerElement.append(this.stadium);
         this.calcPositions();
-        this.players.forEach(player => {
+        this.teamA.getPlayers().forEach(player => {
+            player.render();
+        });
+        this.teamB.getPlayers().forEach(player => {
             player.render();
         });
         this.ball.render();

@@ -3,12 +3,16 @@ class Player
     r = 50;
 
     name;
+    number;
     
+    // Team A or B
+    side;
+
     player;
     playerBody;
 
     stadiumObj;
-    focused = true;
+    focused = false;
 
     // prędkość maksymalna
     speed = 1;
@@ -39,13 +43,21 @@ class Player
     // max siła podania
     passPower = 0.1;
 
+    goalkeeper = false;
+
     pos = {
         x: 0, y: 0
     }
 
-    constructor(name) {
-        this.name;
+    constructor(name, number) {
+        this.name = name;
+        this.number = number;
         this.create();
+        return this;
+    }
+
+    setFocused(state) {
+        this.focused = state;
         return this;
     }
 
@@ -55,9 +67,27 @@ class Player
     }
 
     create() {
-        this.player = $('<div class="player"></div>');
+        this.player = $('<div class="player '+this.playerCssClass()+'"></div>');
         this.playerBody = $('<div class="player-body"></div>');
-        this.player.append(this.playerBody);
+        let playerName = $('<div class="player-name">'+this.name+'</div>');
+        this.player
+            .append(this.playerBody)
+            .append(playerName)
+            ;
+    }
+
+    playerCssClass() {
+        let gkClass = "";
+        if (this.goalkeeper) {
+            gkClass = "goalkeeper"
+        }
+        return " "+gkClass+" ";
+    }
+
+    setTeamSide (side) {
+        this.player.addClass('team'+side);
+        this.side = side;
+        return this;
     }
 
     updatePosition() {
@@ -157,5 +187,22 @@ class Player
 
     getPassPower() {
         return this.passPower;// * this.getPercentCurrentSpeedOfMaxSpeed();
+    }
+
+    resetAction(action) {
+        if (action == this.action) {
+            this.action = null;
+            this.actionSetTime = null;
+        }
+        return this;
+    }
+
+    setIsGoalkeeper(is) {
+        this.goalkeeper = is;
+        return this;
+    }
+
+    isGoalkeeper() {
+        return this.goalkeeper;
     }
 }
