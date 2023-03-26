@@ -43,6 +43,8 @@ class Player
     // max siła podania
     passPower = 0.1;
 
+    ai = null;
+
     goalkeeper = false;
 
     pos = {
@@ -204,5 +206,21 @@ class Player
 
     isGoalkeeper() {
         return this.goalkeeper;
+    }
+
+    doAIMove() {
+        return this;
+    }
+
+    setAI (ai) {
+        this.ai = ai;
+        this.configureAI();
+        return this;
+    }
+
+    configureAI() {
+        this.ai;
+        // todo
+        return this;
     }
 }

@@ -164,7 +164,7 @@ class Stadium
         return p;
     }
 
-    isBallOnField() {
+    isBallOutField() {
         let p = this.ball.getPosition();
         //console.log("ball position: "+JSON.stringify(p));
         return p.x < this.fieldPosition.x - this.ball.r/2

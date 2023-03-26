@@ -12,6 +12,8 @@
   <script src="/js/engine.js"></script>
   <script src="/js/ball.js"></script>
   <script src="/js/team.js"></script>
+  <script src="/js/playerAI.js"></script>
+  <script src="/js/goalkeeperAI.js"></script>
 </head>
 
 <body>
@@ -28,12 +30,14 @@
             // team A
             let player1 = new Player("Mati",10)
                 .setPosition({x: 500, y: 250})
-                .setFocused(true);
+                .setFocused(true)
+                ;
 
 
             // team B
             let gk2 = new Goalkeeper("Bramkarz",1)
                 .setPosition({x: 1050, y: 330})
+                .setAI(new GoalkeeperAI())
                 ;
 
 
@@ -48,17 +52,19 @@
                 ;
 
             let stadium = new Stadium("klepisko")
-            .setSize(1000,500)
-            .setGoalSize(150)
-            .addTeamA(teamA)
-            .addTeamB(teamB)
-            .addBall(ball)
-            .render();
+                .setSize(1000,500)
+                .setGoalSize(150)
+                .addTeamA(teamA)
+                .addTeamB(teamB)
+                .addBall(ball)
+                .render()
+                ;
 
             
             let engine = new Engine()
-            .control(player1)
-            .run();
+                .control(player1)
+                .run()
+                ;
             
         });
     </script>

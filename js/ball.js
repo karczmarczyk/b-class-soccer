@@ -7,6 +7,11 @@ class Ball
         y: 0,
     }
 
+    lastPosOnField = {
+        x: 0,
+        y: 0,
+    }
+
     ball;
     ballBody;
 
@@ -48,6 +53,17 @@ class Ball
 
     getPosition() {
         return this.pos;
+    }
+
+    setLastPositionOnField(p) {
+        this.lastPosOnField = {
+            x: p.x,
+            y: p.y,
+        }
+    }
+
+    getLastPositionOnField() {
+        return this.lastPosOnField;
     }
 
     create() {

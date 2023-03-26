@@ -176,11 +176,11 @@ class Engine
     }
 
     moveBall() {
-        let pBefore = this.player.stadiumObj.ball.getPosition();
+        let pBefore = this.player.stadiumObj.ball.getLastPositionOnField();
         this.player.stadiumObj.ball.move();
-        if (this.player.stadiumObj.isBallOnField()) {
+        if (this.player.stadiumObj.isBallOutField()) {
             let pAfter = this.player.stadiumObj.ball.getPosition();
-            if (this.player.stadiumObj.isGoal("A", this.player.getPosition(), pAfter)) {
+            if (this.player.stadiumObj.isGoal("A", pBefore, pAfter)) {
                 console.log("GOAL A!!!");    
             }
             else if (this.player.stadiumObj.isGoal("B", this.player.getPosition(), pAfter)) {
@@ -194,6 +194,8 @@ class Engine
                 that.engineStop = true;
                 document.location.reload();
             }, 1000);
+        } else {
+            this.player.stadiumObj.ball.setLastPositionOnField(this.player.stadiumObj.ball.getPosition());
         }
     }
 
@@ -201,7 +203,7 @@ class Engine
         let that = this;
         this.player.stadiumObj['team'+side].getPlayers().forEach(player => {
             if (!player.focused) {
-                that.moveOtherPlayer(player);
+                this.moveOtherPlayer(player);
             }
         });
     }
@@ -210,7 +212,7 @@ class Engine
         player.updatePosition();
         this.colisionWithBall(player);
         
-        that.colisionWithBall(this.player);
+        this.colisionWithBall(this.player);
     }
 
     run() {
