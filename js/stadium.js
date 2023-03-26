@@ -231,6 +231,10 @@ class Stadium
         return xMin <= p3.x && p3.x <= xMax;
     }
 
+    getCenterPosition() {
+        return this.centerPosition;
+    }
+
     render() {
         this.updateView();
         this.containerElement.append(this.stadium);

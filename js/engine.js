@@ -175,15 +175,31 @@ class Engine
         return dMax>=d;
     }
 
+    getLastPositionBallOnField() {
+        let p = this.player.stadiumObj.ball.getLastPositionOnField();
+        let c = this.player.stadiumObj.getCenterPosition();
+        if (p.x < c.x) {
+            return {
+                x: p.x+this.player.stadiumObj.ball.r,
+                y: p.y,
+            }
+        } else {
+            return {
+                x: p.x-this.player.stadiumObj.ball.r,
+                y: p.y,
+            }
+        }
+    }
+
     moveBall() {
-        let pBefore = this.player.stadiumObj.ball.getLastPositionOnField();
+        let pBefore = this.getLastPositionBallOnField();
         this.player.stadiumObj.ball.move();
         if (this.player.stadiumObj.isBallOutField()) {
             let pAfter = this.player.stadiumObj.ball.getPosition();
             if (this.player.stadiumObj.isGoal("A", pBefore, pAfter)) {
                 console.log("GOAL A!!!");    
             }
-            else if (this.player.stadiumObj.isGoal("B", this.player.getPosition(), pAfter)) {
+            else if (this.player.stadiumObj.isGoal("B", pBefore, pAfter)) {
                 console.log("GOAL B!!!");
             } 
             else {
