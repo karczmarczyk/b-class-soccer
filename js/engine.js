@@ -1,5 +1,7 @@
 class Engine
 {
+    message = $('#messages-text');
+
     engineStop = false;
 
     keys = {
@@ -191,25 +193,45 @@ class Engine
         }
     }
 
+    setMessage(message) {
+        this.message.text(message);
+        // this.message.toggle( "pulsate" );
+    }
+
+    goalNetColision(side) {
+        let pBefore = this.getLastPositionBallOnField();
+        let pAfter = this.player.stadiumObj.ball.getPosition();
+        let net = this.player.stadiumObj.isGoalNetColision(side, pBefore, pAfter);
+        if (net) {
+            console.log(JSON.stringify(net));
+            this.engineStop = true;
+        }
+    }
+
     moveBall() {
         let pBefore = this.getLastPositionBallOnField();
         this.player.stadiumObj.ball.move();
         if (this.player.stadiumObj.isBallOutField()) {
             let pAfter = this.player.stadiumObj.ball.getPosition();
             if (this.player.stadiumObj.isGoal("A", pBefore, pAfter)) {
+                this.setMessage("GOAL A!!!");
                 console.log("GOAL A!!!");    
+                this.goalNetColision("A");
             }
             else if (this.player.stadiumObj.isGoal("B", pBefore, pAfter)) {
+                this.setMessage("GOAL B!!!");
                 console.log("GOAL B!!!");
+                this.goalNetColision("B");
             } 
             else {
+                this.setMessage("BALL OUT!!!");
                 console.log("BALL OUT!!!");
             }
             let that = this;
             setTimeout(function(){
                 that.engineStop = true;
                 document.location.reload();
-            }, 1000);
+            }, 2000);
         } else {
             this.player.stadiumObj.ball.setLastPositionOnField(this.player.stadiumObj.ball.getPosition());
         }

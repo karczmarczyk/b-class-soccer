@@ -8,22 +8,57 @@ class Stadium
     sideB = null;
     
     goalPosR = 2.5;
-
+    
     goalA = null;
     goalPostA1 = null;
     goalPostA1Obj = null;
     goalPostA2 = null;
     goalPostA2Obj = null;
+    // wektory siatki branki A
+    goalNetsA = [
+        { 
+            A: {x:0 , y:0},
+            B: {x:0 , y:0}, 
+        },
+        { 
+            A: {x:0 , y:0},
+            B: {x:0 , y:0}, 
+        },
+        { 
+            A: {x:0 , y:0},
+            B: {x:0 , y:0}, 
+        },
+    ]
     
     goalB = null;
     goalPostB1 = null;
     goalPostB1Obj = null;
     goalPostB2 = null;
     goalPostB2Obj = null;
+    // wektory siatki branki B
+    goalNetsB = [
+        { 
+            A: {x:0 , y:0},
+            B: {x:0 , y:0}, 
+        },
+        { 
+            A: {x:0 , y:0},
+            B: {x:0 , y:0}, 
+        },
+        { 
+            A: {x:0 , y:0},
+            B: {x:0 , y:0}, 
+        },
+    ]
 
+    // długość boiska
     length = 200;
+    // szerokość boiska
     width = 100;
+    // szerokosć bramki
     goalSize = 25;
+    // głębokość bramki
+    goalDeep = 50;
 
     centerPosition = {
         x: 0,
@@ -152,6 +187,55 @@ class Stadium
         this.goalPostA2Obj = new GoalPost("A2", this.calcGoalPostPos('A','2'), this.goalPosR);
         this.goalPostB1Obj = new GoalPost("B1", this.calcGoalPostPos('B','1'), this.goalPosR);
         this.goalPostB2Obj = new GoalPost("B2", this.calcGoalPostPos('B','2'), this.goalPosR);
+
+        // net vectors
+        this.goalNetsA = this.calcGoalNets(this.goalPostA1Obj.getPosition(), this.goalPostA2Obj.getPosition(), -1*this.goalDeep);
+        this.goalNetsB = this.calcGoalNets(this.goalPostB1Obj.getPosition(), this.goalPostB2Obj.getPosition(), this.goalDeep);
+    }
+
+    calcGoalNets(p1, p2, d) {
+        return [
+            {
+                A: {
+                    x: p1.x,
+                    y: p1.y,
+                },
+                B: {
+                    x: p1.x + d,
+                    y: p1.y + d,
+                }
+            },
+            {
+                A: {
+                    x: p1.x + d,
+                    y: p1.y + d,
+                },
+                B: {
+                    x: p2.x + d,
+                    y: p2.y + d,
+                }
+            },
+            {
+                A: {
+                    x: p2.x,
+                    y: p2.y,
+                },
+                B: {
+                    x: p2.x + d,
+                    y: p2.y + d,
+                }
+            },
+        ];
+    }
+
+    isGoalNetColision(x, pBefore, pAfter) {
+        let nets = this["goalNets"+x];
+        for (let i=0; i<nets.length; i++) {
+            if (this.vectorIntersection(pBefore, pAfter, nets[i].A, nets[i].B)) {
+                return nets[i];
+            }
+        }
+        return false;
     }
 
     calcGoalPostPos(n,m) {
