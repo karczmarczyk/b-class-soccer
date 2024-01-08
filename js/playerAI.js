@@ -5,4 +5,8 @@ class PlayerAI
     setTeamSide (side) {
         this.side = side;
     }
+
+    do (player, engine) {
+
+    }
 }

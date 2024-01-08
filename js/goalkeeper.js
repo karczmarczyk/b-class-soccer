@@ -2,8 +2,12 @@ class Goalkeeper extends Player
 {
     goalkeeper = true;
 
-    doAIMove() {
-        
+    // siła dotknięcia
+    touch = 0.1;
+
+    doAIMove(engine) {
+        this.ai.do(this, engine);
+        return this;
     }
 
     configureAI() {

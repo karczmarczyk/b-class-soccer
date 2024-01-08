@@ -135,6 +135,28 @@ class Player
         p.y = p.y + this.ySpeed;
     }
 
+    moveTo(p) {
+        let thisP = this.getPosition();
+        if (null!=p.y) {
+            if (p.y<thisP.y) {
+                this.setYAcceleration(-this.acceleration);
+            } else if (p.y>thisP.y) {
+                this.setYAcceleration(this.acceleration);
+            } else {
+                this.setYAcceleration(0);
+            }
+        }
+        if (null!=p.x) {
+            if (p.x<thisP.x) {
+                this.setXAcceleration(-this.acceleration);
+            } else if (p.x>thisP.x) {
+                this.setXAcceleration(this.acceleration);
+            } else {
+                this.setXAcceleration(0);
+            }
+        }
+    }
+
     calcSpeed(currentSpeed) {
         if (currentSpeed>0) {
             currentSpeed = currentSpeed-this.moveInertia; 
@@ -208,13 +230,14 @@ class Player
         return this.goalkeeper;
     }
 
-    doAIMove() {
+    doAIMove(engine) {
         return this;
     }
 
     setAI (ai) {
         this.ai = ai;
         this.configureAI();
+        this.ai.do();
         return this;
     }
 

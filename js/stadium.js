@@ -14,6 +14,7 @@ class Stadium
     goalPostA1Obj = null;
     goalPostA2 = null;
     goalPostA2Obj = null;
+    goalPostAObjCenter = null;
     // wektory siatki branki A
     goalNetsA = [
         { 
@@ -35,6 +36,7 @@ class Stadium
     goalPostB1Obj = null;
     goalPostB2 = null;
     goalPostB2Obj = null;
+    goalPostBObjCenter = null;
     // wektory siatki branki B
     goalNetsB = [
         { 
@@ -185,8 +187,16 @@ class Stadium
         // goals positions
         this.goalPostA1Obj = new GoalPost("A1", this.calcGoalPostPos('A','1'), this.goalPosR);
         this.goalPostA2Obj = new GoalPost("A2", this.calcGoalPostPos('A','2'), this.goalPosR);
+        this.goalPostAObjCenter = {
+            x: this.goalPostA1Obj.getPosition().x,
+            y: this.centerPosition.y
+        };
         this.goalPostB1Obj = new GoalPost("B1", this.calcGoalPostPos('B','1'), this.goalPosR);
         this.goalPostB2Obj = new GoalPost("B2", this.calcGoalPostPos('B','2'), this.goalPosR);
+        this.goalPostBObjCenter = {
+            x: this.goalPostB1Obj.getPosition().x,
+            y: this.centerPosition.y
+        };
 
         // net vectors
         this.goalNetsA = this.calcGoalNets(this.goalPostA1Obj.getPosition(), this.goalPostA2Obj.getPosition(), -1*this.goalDeep);

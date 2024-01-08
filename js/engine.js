@@ -123,16 +123,33 @@ class Engine
         this.player.stadiumObj.ball.setVector(vector);
 
         let power = defaultPower;
-        if (this.player.isShoting()) {
-            power = this.player.getShotPower();
-            this.player.resetAction('shot');
+        if (player.isShoting()) {
+            power = player.getShotPower();
+            player.resetAction('shot');
         }
-        if (this.player.isPassing()) {
-            power = this.player.getPassPower();
-            this.player.resetAction('pass');
+        if (player.isPassing()) {
+            power = player.getPassPower();
+            player.resetAction('pass');
         }
 
         this.player.stadiumObj.ball.setPower(power);
+    }
+
+    playerToBallDistance(player) {
+        let ball = this.player.stadiumObj.ball;
+        return this.distance(player, ball);
+
+    }
+
+    distance (obj1, obj2) {
+        let p1 = obj1.getPosition();
+        let p2 = obj2.getPosition();
+        return this.distanceByPosition(p1, p2);
+    }
+
+    distanceByPosition (p1, p2) {
+        let d = Math.sqrt(Math.pow(p2.x-p1.x, 2) + Math.pow(p2.y-p1.y, 2));
+        return d;
     }
 
     colisionWithBall(player){
@@ -168,12 +185,8 @@ class Engine
     }
 
     isColision(obj1, obj2) {
-        let p1 = obj1.getPosition();
-        let p2 = obj2.getPosition();
         let dMax = (obj1.r+obj2.r) / 2;
-        let d = Math.sqrt(Math.pow(p2.x-p1.x, 2) + Math.pow(p2.y-p1.y, 2));
-        let name = obj2.name;
-        //console.log(JSON.stringify({name, p1, p2, dMax, d}))
+        let d = this.distance(obj1, obj2);
         return dMax>=d;
     }
 
@@ -247,6 +260,7 @@ class Engine
     }
 
     moveOtherPlayer(player) {
+        player.doAIMove(this);
         player.updatePosition();
         this.colisionWithBall(player);
         
